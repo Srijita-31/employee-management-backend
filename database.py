@@ -7,20 +7,23 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from typing import Generator
 import os
 
-# SQLite database URL - creates 'employees.db' in /tmp for Railway compatibility
-# On local: uses project root. On Railway: uses /tmp (ephemeral storage)
-db_path = os.getenv("DATABASE_URL", "sqlite:///./employees.db")
-if not db_path.startswith("postgresql"):
-    # Ensure SQLite uses absolute path for Railway
-    if "sqlite" in db_path:
-        db_path = db_path.replace("./", "/tmp/")
+# SQLite database URL - creates 'employees.db' 
+# On Railway: uses /tmp for ephemeral storage
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./employees.db")
 
-DATABASE_URL = db_path
+# For Railway compatibility, handle both sqlite and postgresql
+if "sqlite" in DATABASE_URL:
+    # Ensure SQLite works on Railway
+    create_engine_kwargs = {
+        "connect_args": {"check_same_thread": False}
+    }
+else:
+    create_engine_kwargs = {}
 
 # Create engine with SQLite
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False}  # Required for SQLite
+    **create_engine_kwargs
 )
 
 # Session factory for database transactions

@@ -7,9 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine
 from routes import router
 import uvicorn
+import os
 
-# Create all database tables on startup
-Base.metadata.create_all(bind=engine)
+# Create all database tables on startup (with error handling)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    print(f"Warning: Database creation error: {e}")
 
 # Initialize FastAPI application
 app = FastAPI(
@@ -58,6 +62,5 @@ def health_check():
 if __name__ == "__main__":
     # Run the application with: python main.py
     # Or use: uvicorn main:app --reload
-    import os
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
