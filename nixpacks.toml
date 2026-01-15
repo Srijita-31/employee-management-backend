@@ -1,0 +1,5 @@
+[build]
+language = "python"
+
+[build.variables]
+PIP_CACHE_DIR = "/root/.cache/pip"
