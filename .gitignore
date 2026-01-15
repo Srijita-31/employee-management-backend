@@ -55,9 +55,6 @@ ENV/
 .coverage
 htmlcov/
 
-# Interview Materials (Keep Local)
-INTERVIEW_GUIDE.md
-interview_prep.md
 
 # OS
 .DS_Store
