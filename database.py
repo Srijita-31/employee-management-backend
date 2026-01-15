@@ -5,9 +5,17 @@ Uses SQLAlchemy ORM with SQLite database.
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from typing import Generator
+import os
 
-# SQLite database URL - creates 'employees.db' in project root
-DATABASE_URL = "sqlite:///./employees.db"
+# SQLite database URL - creates 'employees.db' in /tmp for Railway compatibility
+# On local: uses project root. On Railway: uses /tmp (ephemeral storage)
+db_path = os.getenv("DATABASE_URL", "sqlite:///./employees.db")
+if not db_path.startswith("postgresql"):
+    # Ensure SQLite uses absolute path for Railway
+    if "sqlite" in db_path:
+        db_path = db_path.replace("./", "/tmp/")
+
+DATABASE_URL = db_path
 
 # Create engine with SQLite
 engine = create_engine(
