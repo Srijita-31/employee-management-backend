@@ -452,21 +452,4 @@ Email addresses must be unique. Use a different email when creating employees.
 7. Use database backups
 8. Implement audit logging
 
-## Contributing
 
-When extending this API:
-1. Write tests first
-2. Follow PEP 8 style guide
-3. Add docstrings to functions
-4. Update README with new endpoints
-
-## License
-
-This project is provided as-is for educational and interview purposes.
-
-## Support
-
-For issues or questions:
-1. Check the test suite for usage examples
-2. Review the docstrings in source code
-3. Use the Swagger UI at `/docs` for interactive exploration
